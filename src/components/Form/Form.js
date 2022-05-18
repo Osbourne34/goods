@@ -23,7 +23,7 @@ const Form = () => {
 
     useEffect(() => {
         if (pathname !== '/addition') {
-            setValue(goods.products.find(good => good.id === +id));
+            setValue(goods.products.find(good => good.id == id));
         }
     }, [])
 

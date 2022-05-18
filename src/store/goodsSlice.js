@@ -113,10 +113,10 @@ const goodsSlice = createSlice({
             state.isLoading = true;
         },
         [fetchChangeGood.fulfilled]: (state, action) => {
-            state.isLoading = false;
             console.log(action.payload);
+            state.isLoading = false;
             state.goods.products = state.goods.products.map(good => {
-                if(+action.payload.id === good.id) {
+                if(action.payload.id == good.id) {
                     return good = action.payload
                 }
                 return good;
