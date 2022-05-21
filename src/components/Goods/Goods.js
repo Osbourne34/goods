@@ -51,6 +51,8 @@ const Goods = () => {
         </Grid>
         :
         <Typography>Loading...</Typography>
+
+
     )
 }
 

@@ -5,6 +5,9 @@ const initialState = {
     isLoading: false,
     error: null,
     searchValue: '',
+    isRemoved: false,
+    isAdded: false,
+    isChanged: false,
     filteredGoods: {
         products: []
     }
@@ -81,6 +84,9 @@ const goodsSlice = createSlice({
             else {
                 state.filteredGoods.products = []
             }
+        },
+        closeSnack: (state, action) => {
+            state[action.payload] = false;
         }
     },
     extraReducers: {
@@ -99,6 +105,7 @@ const goodsSlice = createSlice({
         [fetchDeleteGood.fulfilled]: (state, action) => {
             state.filteredGoods.products = removeGoods(state.filteredGoods.products, action.payload);
             state.goods.products = removeGoods(state.goods.products, action.payload);
+            state.isRemoved = true;
         },
 
         [fetchAddGood.pending]: (state, action) => {
@@ -107,13 +114,13 @@ const goodsSlice = createSlice({
         [fetchAddGood.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.goods.products.push(action.payload);
+            state.isAdded = true;
         },
 
         [fetchChangeGood.pending]: (state, action) => {
             state.isLoading = true;
         },
         [fetchChangeGood.fulfilled]: (state, action) => {
-            console.log(action.payload);
             state.isLoading = false;
             state.goods.products = state.goods.products.map(good => {
                 if(action.payload.id == good.id) {
@@ -121,10 +128,11 @@ const goodsSlice = createSlice({
                 }
                 return good;
             })
+            state.isChanged = true;
         }
     },
 
 });
 
-export const { searchGoods } = goodsSlice.actions;
+export const { searchGoods, closeSnack } = goodsSlice.actions;
 export default goodsSlice.reducer;
